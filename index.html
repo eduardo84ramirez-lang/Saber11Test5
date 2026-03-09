@@ -1,0 +1,437 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Saber 11 - English Practice Test (Exam 5)</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
+        .test-section { display: none; }
+        .active-section { display: block; }
+        .glass-panel { background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(10px); }
+    </style>
+</head>
+<body class="bg-slate-100 min-h-screen text-slate-800">
+
+    <!-- Navbar -->
+    <nav class="bg-violet-900 text-white p-4 shadow-md sticky top-0 z-50">
+        <div class="max-w-5xl mx-auto flex justify-between items-center">
+            <h1 class="text-xl font-bold flex items-center gap-2">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path></svg>
+                ICFES Saber 11° - English (Exam 5)
+            </h1>
+            <div id="student-display" class="hidden font-semibold bg-violet-800 px-4 py-1 rounded-full border border-violet-600"></div>
+        </div>
+    </nav>
+
+    <!-- Main Container -->
+    <main class="max-w-5xl mx-auto p-4 my-6">
+
+        <!-- INTRO SCREEN -->
+        <div id="intro-screen" class="glass-panel rounded-2xl shadow-xl p-8 md:p-12 text-center border-t-4 border-violet-600">
+            <h2 class="text-3xl font-bold text-slate-800 mb-4">Welcome to the Saber 11 English Practice Test</h2>
+            <div class="inline-block bg-violet-100 text-violet-800 font-bold px-4 py-1 rounded-full mb-6">Examen 5 (Simulacro Inédito) - 25 Questions</div>
+            <p class="text-slate-600 mb-8 max-w-2xl mx-auto text-lg">
+                This interactive tool will help you prepare for the official ICFES exam following the exact 7-part structure. <br><br>
+                Please enter your full name below to begin. At the end of the test, your results will be automatically graded, and you can take a screenshot of your report to send to your teacher.
+            </p>
+            
+            <div class="max-w-md mx-auto bg-white p-6 rounded-xl border border-slate-200 shadow-sm">
+                <label for="studentName" class="block text-left text-sm font-bold text-slate-700 mb-2">Student's Full Name:</label>
+                <input type="text" id="studentName" placeholder="e.g. David Martinez" class="w-full px-4 py-3 rounded-lg border border-slate-300 focus:ring-2 focus:ring-violet-500 focus:border-violet-500 outline-none transition-all mb-4">
+                <button onclick="startTest()" class="w-full bg-violet-600 hover:bg-violet-700 text-white font-bold py-3 px-6 rounded-lg shadow-md transition-all flex justify-center items-center gap-2">
+                    Start Practice Test
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg>
+                </button>
+                <p id="name-error" class="text-red-500 text-sm mt-2 hidden">Please enter your name to continue.</p>
+            </div>
+        </div>
+
+        <!-- TEST SCREEN -->
+        <div id="test-screen" class="hidden">
+            <form id="quiz-form">
+                <div id="test-content">
+                    <!-- JavaScript will inject the questions here -->
+                </div>
+
+                <div class="mt-10 flex justify-end">
+                    <button type="button" onclick="submitTest()" class="bg-fuchsia-600 hover:bg-fuchsia-700 text-white font-bold py-4 px-10 rounded-xl shadow-lg transition-all text-xl flex items-center gap-2">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                        Submit Test
+                    </button>
+                </div>
+            </form>
+        </div>
+
+        <!-- RESULTS SCREEN -->
+        <div id="results-screen" class="hidden glass-panel rounded-2xl shadow-xl p-6 md:p-10 text-center border-t-4 border-fuchsia-500">
+            <h2 class="text-3xl font-bold text-slate-800 mb-3">Practice Test Completed!</h2>
+            <p class="text-slate-600 mb-8 text-lg">
+                You have successfully finished Exam 5. <br>
+                <strong class="text-violet-700 bg-violet-50 px-2 py-1 rounded">📸 Please take a screenshot of this entire page and send it to your teacher.</strong>
+            </p>
+            
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8 bg-slate-50 p-6 rounded-xl border border-slate-200 text-left">
+                <div>
+                    <p class="text-xs text-slate-500 font-bold uppercase">Student Name</p>
+                    <p id="result-name" class="text-lg font-bold text-slate-900 truncate"></p>
+                </div>
+                <div>
+                    <p class="text-xs text-slate-500 font-bold uppercase">Date</p>
+                    <p id="result-date" class="text-lg font-bold text-slate-900"></p>
+                </div>
+                <div>
+                    <p class="text-xs text-slate-500 font-bold uppercase">Final Score</p>
+                    <p id="result-score-text" class="text-xl font-black text-violet-700"></p>
+                </div>
+                <div>
+                    <p class="text-xs text-slate-500 font-bold uppercase">Performance</p>
+                    <p id="result-performance" class="text-lg font-bold text-slate-900"></p>
+                </div>
+            </div>
+
+            <div class="overflow-x-auto bg-white rounded-xl shadow-sm border border-slate-200">
+                <h3 class="text-lg font-bold p-4 border-b border-slate-200 text-left text-slate-800 bg-slate-50">Detailed Question Breakdown</h3>
+                <table class="w-full text-left border-collapse text-sm">
+                    <thead>
+                        <tr class="bg-slate-100 border-b-2 border-slate-300">
+                            <th class="py-3 px-4 text-slate-700">Q#</th>
+                            <th class="py-3 px-4 text-slate-700">Part</th>
+                            <th class="py-3 px-4 text-center text-slate-700">Your Answer</th>
+                            <th class="py-3 px-4 text-center text-slate-700">Correct Answer</th>
+                            <th class="py-3 px-4 text-center text-slate-700">Status</th>
+                        </tr>
+                    </thead>
+                    <tbody id="results-table-body">
+                        <!-- Injected via JS -->
+                    </tbody>
+                </table>
+            </div>
+            
+            <div class="mt-8 text-sm text-slate-500 font-bold uppercase tracking-wider">
+                Instituto Colombiano para la Evaluación de la Educación - Saber 11° (Simulacro Exam 5)
+            </div>
+        </div>
+
+    </main>
+
+    <script>
+        // --- TEST DATA STRUCTURE (EXAMEN 5 - NEW MOCK EXAM) ---
+        const testData = [
+            {
+                exam: "EXAMEN 5",
+                parts: [
+                    {
+                        partNum: 1,
+                        instructions: "Lea las descripciones de la columna de la izquierda (1-5). ¿Cuál palabra de la columna de la derecha (A-H) concuerda con cada descripción? (Food and Drinks)",
+                        type: "matching",
+                        options: { A: "Apple", B: "Bread", C: "Cheese", D: "Coffee", E: "Egg", F: "Milk", G: "Soup", H: "Water (Example)" },
+                        questions: [
+                            { id: 1, text: "You need this white liquid to make cheese.", answer: "F" },
+                            { id: 2, text: "This fruit can be red or green and is very crunchy.", answer: "A" },
+                            { id: 3, text: "It is a hot, dark drink that many adults have in the morning.", answer: "D" },
+                            { id: 4, text: "You can boil or fry this oval object that comes from chickens.", answer: "E" },
+                            { id: 5, text: "People usually eat this hot liquid food in a bowl when it's cold.", answer: "G" }
+                        ]
+                    },
+                    {
+                        partNum: 2,
+                        instructions: "¿Dónde puede ver estos avisos?",
+                        type: "multiple-choice",
+                        questions: [
+                            { 
+                                id: 6, 
+                                visual: `<div class="border-4 border-double border-red-700 bg-white p-4 text-center font-bold text-lg max-w-sm mx-auto shadow-sm rounded uppercase tracking-wide text-red-700">DO NOT TOUCH<br>THE ARTWORK</div>`,
+                                options: { A: "in a museum", B: "in a supermarket", C: "in a hospital" }, 
+                                answer: "A" 
+                            },
+                            { 
+                                id: 7, 
+                                visual: `<div class="border-2 border-slate-800 bg-slate-100 text-slate-900 p-4 text-center font-bold text-lg max-w-sm mx-auto shadow-md rounded">FASTEN YOUR SEATBELTS<br>WHILE SEATED</div>`,
+                                options: { A: "on a bike", B: "on an airplane", C: "on a train" }, 
+                                answer: "B" 
+                            },
+                            { 
+                                id: 8, 
+                                visual: `<div class="border border-violet-400 bg-violet-50 p-4 text-center text-lg max-w-sm mx-auto shadow rounded font-serif text-violet-800">SILENCE PLEASE<br>EXAMS IN PROGRESS</div>`,
+                                options: { A: "at a party", B: "at a school", C: "at a stadium" }, 
+                                answer: "B" 
+                            }
+                        ]
+                    },
+                    {
+                        partNum: 3,
+                        instructions: "Complete las tres conversaciones.",
+                        type: "multiple-choice",
+                        questions: [
+                            { id: 9, text: "I have a terrible headache.", options: { A: "I need to buy it.", B: "You should take some medicine.", C: "Happy birthday!" }, answer: "B" },
+                            { id: 10, text: "How much are these shoes?", options: { A: "They are 50 dollars.", B: "I like the red ones.", C: "They are open." }, answer: "A" },
+                            { id: 11, text: "Could you pass me the salt, please?", options: { A: "No, I don't.", B: "It's very sunny.", C: "Here you go." }, answer: "C" }
+                        ]
+                    },
+                    {
+                        partNum: 4,
+                        instructions: "Lea el texto de la parte inferior y seleccione la palabra correcta para cada espacio.",
+                        type: "fill-in-blanks",
+                        title: "THE GIANT PANDA",
+                        visual: `<svg class="w-32 h-32 mx-auto text-slate-800" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm-2-9c-.83 0-1.5-.67-1.5-1.5S9.17 8 10 8s1.5.67 1.5 1.5S10.83 11 10 11zm4 0c-.83 0-1.5-.67-1.5-1.5S13.17 8 14 8s1.5.67 1.5 1.5S14.83 11 14 11zm-2 4c1.38 0 2.5-.67 2.5-1.5H9.5c0 .83 1.12 1.5 2.5 1.5z"/></svg>`,
+                        text: "Giant pandas are one of the (0) [most] famous animals in the world. They live <strong>(12)</strong> _____ the bamboo forests of central China. Pandas are easily recognized by their black and white fur. <strong>(13)</strong> _____ they are technically carnivores, their diet consists almost entirely of bamboo. They eat up to 12 kilograms of bamboo <strong>(14)</strong> _____ day.<br><br>Sadly, giant pandas are considered a vulnerable species. For many years, hunters <strong>(15)</strong> _____ them for their beautiful fur, and their natural habitats were destroyed. Today, the Chinese government is working hard to protect them and ensure they do not disappear <strong>(16)</strong> _____ the wild.",
+                        questions: [
+                            { id: 12, options: { A: "in", B: "at", C: "on" }, answer: "A" },
+                            { id: 13, options: { A: "Because", B: "Although", C: "But" }, answer: "B" },
+                            { id: 14, options: { A: "every", B: "all", C: "some" }, answer: "A" },
+                            { id: 15, options: { A: "catch", B: "catching", C: "caught" }, answer: "C" },
+                            { id: 16, options: { A: "off", B: "from", C: "out" }, answer: "B" }
+                        ]
+                    },
+                    {
+                        partNum: 5,
+                        instructions: "Lea el artículo y luego responda las preguntas.",
+                        type: "reading",
+                        title: "MARIE CURIE's DISCOVERIES",
+                        visual: `<svg class="w-24 h-24 mx-auto text-violet-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"/></svg>`,
+                        text: "Marie Curie was a famous scientist born in Poland in 1867. When she was young, she moved to Paris, France, to study physics and mathematics at the university. At that time, it was very difficult for women to be scientists, but she worked extremely hard.<br><br>She is most famous for her research on radioactivity. Working with her husband, Pierre Curie, she discovered two new chemical elements: polonium and radium. Her amazing discoveries helped doctors create x-rays, which are now used in hospitals all over the world to see inside the human body.<br><br>Marie Curie was the first woman to win a Nobel Prize, and she is the only person to win the award in two different scientific fields: physics and chemistry. She remains a hero for scientists everywhere.",
+                        questions: [
+                            { id: 17, text: "Where did Marie Curie go to university?", options: { A: "Poland", B: "France", C: "England" }, answer: "B" },
+                            { id: 18, text: "What did she study in Paris?", options: { A: "Chemistry and Biology", B: "Medicine and Physics", C: "Physics and Mathematics" }, answer: "C" },
+                            { id: 19, text: "Who did she work with to discover new elements?", options: { A: "Doctors", B: "Her husband", C: "French students" }, answer: "B" },
+                            { id: 20, text: "What do doctors use x-rays for today?", options: { A: "To see inside people's bodies.", B: "To discover new chemicals.", C: "To win scientific prizes." }, answer: "A" },
+                            { id: 21, text: "How many Nobel Prizes did she win?", options: { A: "One", B: "Two", C: "Three" }, answer: "B" }
+                        ]
+                    },
+                    {
+                        partNum: 6,
+                        instructions: "Lea el artículo y luego responda las preguntas.",
+                        type: "reading",
+                        title: "THE INVENTION OF THE INTERNET",
+                        text: "The Internet is undoubtedly one of the most important inventions in human history. It did not appear suddenly; rather, it was the result of decades of research. In the 1960s, the US government created ARPANET, a network designed to allow computers to share information even if one part of the system was destroyed.<br><br>However, it was in 1989 that British scientist Tim Berners-Lee invented the World Wide Web. This system made the Internet accessible to regular people by using web pages and links. Before this, only scientists and computer experts could use the network. Today, billions of people rely on the internet for communication, work, and entertainment.",
+                        questions: [
+                            { id: 22, text: "Why did the US government create ARPANET?", options: { A: "To sell computers.", B: "To let computers share information safely.", C: "To create the World Wide Web." }, answer: "B" },
+                            { id: 23, text: "What did Tim Berners-Lee achieve?", options: { A: "He made the internet easy for normal people to use.", B: "He built the first computer in the 1960s.", C: "He worked for the US government." }, answer: "A" }
+                        ]
+                    },
+                    {
+                        partNum: 7,
+                        instructions: "Lea el texto de la parte inferior y seleccione la palabra correcta para cada espacio.",
+                        type: "fill-in-blanks",
+                        title: "THE BENEFITS OF SLEEP",
+                        text: "Getting enough sleep is essential for our physical and mental health. While we sleep, our bodies rest and repair (0) [themselves]. Studies show that teenagers <strong>(24)</strong> _____ sleep between 8 and 10 hours a night perform better at school.<br><br>Furthermore, a lack of sleep can negatively affect your mood and make it difficult to concentrate during the day. Therefore, turning off your phone before bed is a great <strong>(25)</strong> _____ to ensure a good night's rest.",
+                        questions: [
+                            { id: 24, options: { A: "which", B: "who", C: "where", D: "whose" }, answer: "B" },
+                            { id: 25, options: { A: "rule", B: "order", C: "way", D: "reason" }, answer: "C" }
+                        ]
+                    }
+                ]
+            }
+        ];
+
+        let studentName = "";
+        const allQuestionsMap = {}; 
+
+        // --- INITIALIZATION AND DOM INJECTION ---
+        document.addEventListener('DOMContentLoaded', () => {
+            renderTest();
+        });
+
+        function renderTest() {
+            const container = document.getElementById('test-content');
+            let html = '';
+
+            testData.forEach((examData) => {
+                examData.parts.forEach((part) => {
+                    html += `
+                        <div class="glass-panel p-6 md:p-10 rounded-2xl shadow-lg border border-slate-200 mb-8">
+                            <div class="border-b border-slate-200 pb-4 mb-6">
+                                <h3 class="text-xl font-bold text-violet-800 uppercase tracking-wide">Parte ${part.partNum}</h3>
+                                <p class="text-slate-600 italic mt-1 font-medium text-lg">${part.instructions}</p>
+                            </div>
+                    `;
+
+                    // TYPE: MATCHING
+                    if (part.type === "matching") {
+                        html += `<div class="flex flex-col md:flex-row gap-8 mb-6">
+                            <div class="w-full md:w-1/3 bg-slate-50 p-5 rounded-xl border border-slate-200 shadow-sm">
+                                <h4 class="font-bold mb-3 border-b pb-2 text-slate-800">Opciones:</h4>
+                                <ul class="space-y-2 text-sm">
+                        `;
+                        for (const [key, val] of Object.entries(part.options)) {
+                            html += `<li><span class="font-bold text-violet-700">${key}.</span> ${val}</li>`;
+                        }
+                        html += `</ul></div><div class="w-full md:w-2/3 space-y-4">`;
+                        
+                        part.questions.forEach((q) => {
+                            allQuestionsMap[q.id] = { answer: q.answer, part: part.partNum };
+                            html += `
+                                <div class="flex flex-col sm:flex-row justify-between sm:items-center bg-white p-4 rounded-lg shadow-sm border border-slate-100 hover:border-violet-300 transition-colors">
+                                    <span class="mb-2 sm:mb-0"><span class="font-bold mr-2 text-slate-500">${q.id}.</span> ${q.text}</span>
+                                    <select name="q${q.id}" class="bg-slate-50 border border-slate-300 text-slate-900 rounded-md focus:ring-violet-500 focus:border-violet-500 block p-2 outline-none cursor-pointer" required>
+                                        <option value="">Select...</option>
+                                        ${Object.keys(part.options).map(key => `<option value="${key}">${key}</option>`).join('')}
+                                    </select>
+                                </div>
+                            `;
+                        });
+                        html += `</div></div>`;
+
+                    // TYPE: MULTIPLE CHOICE
+                    } else if (part.type === "multiple-choice") {
+                        html += `<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">`;
+                        part.questions.forEach((q) => {
+                            allQuestionsMap[q.id] = { answer: q.answer, part: part.partNum };
+                            html += `<div class="bg-white p-6 rounded-xl border border-slate-200 shadow-sm flex flex-col justify-between hover:shadow-md transition-shadow">`;
+                            
+                            if (q.visual) html += `<div class="mb-5">${q.visual}</div>`;
+                            if (q.text) html += `<p class="font-semibold text-lg mb-4"><span class="font-bold mr-2 text-slate-500">${q.id}.</span> ${q.text}</p>`;
+                            
+                            html += `<div class="space-y-3 mt-auto">`;
+                            for (const [key, val] of Object.entries(q.options)) {
+                                html += `
+                                    <label class="flex items-center p-3 border border-slate-200 rounded-lg hover:bg-violet-50 hover:border-violet-300 cursor-pointer transition-colors bg-slate-50">
+                                        <input type="radio" name="q${q.id}" value="${key}" class="w-4 h-4 text-violet-600 border-slate-300" required>
+                                        <span class="ml-3"><strong class="text-violet-700">${key}.</strong> ${val}</span>
+                                    </label>
+                                `;
+                            }
+                            html += `</div></div>`;
+                        });
+                        html += `</div>`;
+
+                    // TYPE: FILL IN THE BLANKS
+                    } else if (part.type === "fill-in-blanks") {
+                        if(part.visual) html += `<div class="mb-4">${part.visual}</div>`;
+                        html += `
+                            <div class="bg-purple-50 p-6 rounded-xl border border-purple-200 mb-6 text-lg leading-relaxed text-justify shadow-inner">
+                                <h4 class="font-black text-center text-xl mb-4 uppercase tracking-widest text-purple-900">${part.title}</h4>
+                                ${part.text}
+                            </div>
+                            <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
+                        `;
+                        part.questions.forEach((q) => {
+                            allQuestionsMap[q.id] = { answer: q.answer, part: part.partNum };
+                            html += `<div class="bg-white p-4 rounded-xl border border-slate-200 shadow-sm">
+                                <p class="font-bold mb-3 text-slate-700 text-center border-b pb-2">Question ${q.id}</p>
+                                <div class="space-y-2">
+                            `;
+                            for (const [key, val] of Object.entries(q.options)) {
+                                html += `
+                                    <label class="flex items-center p-2 rounded hover:bg-slate-100 cursor-pointer text-sm transition-colors">
+                                        <input type="radio" name="q${q.id}" value="${key}" class="w-4 h-4 text-violet-600" required>
+                                        <span class="ml-2"><strong>${key}.</strong> ${val}</span>
+                                    </label>
+                                `;
+                            }
+                            html += `</div></div>`;
+                        });
+                        html += `</div>`;
+                        
+                    // TYPE: READING
+                    } else if (part.type === "reading") {
+                        if(part.visual) html += `<div class="mb-4">${part.visual}</div>`;
+                        html += `
+                            <div class="flex flex-col lg:flex-row gap-8">
+                                <div class="w-full lg:w-1/2 bg-slate-100 p-6 md:p-8 rounded-xl border border-slate-200 text-lg leading-relaxed text-justify shadow-inner">
+                                    <h4 class="font-black text-center text-xl mb-4 uppercase text-slate-800">${part.title}</h4>
+                                    ${part.text}
+                                </div>
+                                <div class="w-full lg:w-1/2 space-y-6">
+                        `;
+                        part.questions.forEach((q) => {
+                            allQuestionsMap[q.id] = { answer: q.answer, part: part.partNum };
+                            html += `
+                                <div class="bg-white p-5 rounded-xl border border-slate-200 shadow-sm">
+                                    <p class="font-semibold mb-4 text-lg"><span class="font-bold mr-2 text-slate-500">${q.id}.</span> ${q.text}</p>
+                                    <div class="space-y-2">
+                            `;
+                            for (const [key, val] of Object.entries(q.options)) {
+                                html += `
+                                    <label class="flex items-center p-3 border border-slate-100 rounded-lg hover:bg-slate-50 hover:border-violet-200 cursor-pointer transition-colors bg-slate-50">
+                                        <input type="radio" name="q${q.id}" value="${key}" class="w-4 h-4 text-violet-600" required>
+                                        <span class="ml-3"><strong class="text-violet-700">${key}.</strong> ${val}</span>
+                                    </label>
+                                `;
+                            }
+                            html += `</div></div>`;
+                        });
+                        html += `</div></div>`;
+                    }
+                    html += `</div>`;
+                });
+            });
+
+            container.innerHTML = html;
+        }
+
+        // --- INTERACTION LOGIC ---
+        function startTest() {
+            const nameInput = document.getElementById('studentName').value.trim();
+            if (!nameInput) {
+                document.getElementById('name-error').classList.remove('hidden');
+                return;
+            }
+            document.getElementById('name-error').classList.add('hidden');
+            studentName = nameInput;
+            
+            document.getElementById('student-display').innerText = `Student: ${studentName}`;
+            document.getElementById('student-display').classList.remove('hidden');
+
+            document.getElementById('intro-screen').classList.add('hidden');
+            document.getElementById('test-screen').classList.remove('hidden');
+            window.scrollTo(0,0);
+        }
+
+        function submitTest() {
+            const form = document.getElementById('quiz-form');
+            if(!form.checkValidity()) {
+                alert("Please answer all questions before submitting the exam.");
+                form.reportValidity();
+                return;
+            }
+
+            let score = 0;
+            const totalQuestions = Object.keys(allQuestionsMap).length; // Should be 25
+            const formData = new FormData(form);
+            const tableBody = document.getElementById('results-table-body');
+            tableBody.innerHTML = '';
+
+            for (let i = 1; i <= totalQuestions; i++) {
+                const userAnswer = formData.get(`q${i}`);
+                const qData = allQuestionsMap[i];
+                const correctAnswer = qData.answer;
+                const partNum = qData.part;
+                const isCorrect = userAnswer === correctAnswer;
+                
+                if (isCorrect) score++;
+
+                // Append to visible HTML Table
+                const tr = document.createElement('tr');
+                tr.className = "border-b border-slate-200";
+                tr.innerHTML = `
+                    <td class="py-3 px-4 font-bold">${i}</td>
+                    <td class="py-3 px-4 text-slate-600">Part ${partNum}</td>
+                    <td class="py-3 px-4 text-center ${isCorrect ? 'text-fuchsia-600 font-bold' : 'text-red-600 font-bold'}">${userAnswer || '-'}</td>
+                    <td class="py-3 px-4 text-center text-violet-600 font-bold">${correctAnswer}</td>
+                    <td class="py-3 px-4 text-center">${isCorrect ? '✅' : '❌'}</td>
+                `;
+                tableBody.appendChild(tr);
+            }
+
+            // Update UI Score & Details
+            document.getElementById('result-name').innerText = studentName;
+            const today = new Date();
+            document.getElementById('result-date').innerText = today.toLocaleDateString('es-CO');
+            document.getElementById('result-score-text').innerText = `${score} / ${totalQuestions}`;
+            
+            let performance = "Needs Improvement";
+            if(score >= 20) performance = "Excellent";
+            else if(score >= 15) performance = "Good";
+            document.getElementById('result-performance').innerText = performance;
+
+            // Show Results Section
+            document.getElementById('test-screen').classList.add('hidden');
+            document.getElementById('results-screen').classList.remove('hidden');
+            window.scrollTo(0, 0);
+        }
+    </script>
+</body>
+</html>
